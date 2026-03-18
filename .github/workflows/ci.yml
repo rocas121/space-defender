@@ -10,11 +10,18 @@ jobs:
   test:
     name: Build & Tests NUnit
     runs-on: ubuntu-latest
- 
+
     steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          df -h   # affiche l'espace dispo pour vérifier
+          
       - name: Checkout
         uses: actions/checkout@v4
- 
       - name: Cache Unity Library
         uses: actions/cache@v3
         with:
@@ -54,7 +61,7 @@ jobs:
     needs: test             # attend que les tests passent
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
- 
+    
     steps:
       - uses: actions/checkout@v4
  
